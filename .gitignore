@@ -1,0 +1,27 @@
+# Segredos / credenciais - NUNCA versionar
+config/.env
+config/credentials.json
+config/oauth_credentials.json
+config/token.json
+config/token*.json
+config/*.bak
+DOCS_MODELOS/timbrado_modelo.docx
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+env/
+
+# Banco de teses local (se nao for versionado - depende da decisao do onboarding)
+# BASE_CONHECIMENTO/
+
+# Relatorios / saidas geradas
+*.tmp
+tmp/
+
+# Arquivos pessoais do SO
+Thumbs.db
+.DS_Store
