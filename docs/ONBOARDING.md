@@ -5,20 +5,26 @@ Checklist para colocar o sistema rodando. A prioridade é o **Squad Controladori
 
 ## 1. Instalar dependências
 
+Escritório com máquinas Windows e Mac — use o instalador do seu sistema (repositório:
+https://github.com/pabadvogados-hub/maldonado-advogados):
+
+**Windows** (duplo clique ou terminal):
+```bat
+deploy\instalar_windows.bat
 ```
-cd MALDONADO_ADVOGADOS
-python -m venv venv
-venv\Scripts\activate          # Windows
-pip install -r requirements.txt
+
+**Mac:**
+```bash
+chmod +x deploy/instalar_mac.sh
+./deploy/instalar_mac.sh
 ```
+
+Isso já cria o ambiente virtual, instala as dependências e copia `config/.env.example` para
+`config/.env`. Se preferir fazer manualmente, ver o passo a passo em `README.md`.
 
 ## 2. Configurar `config/.env`
 
-```
-copy config\.env.example config\.env
-```
-
-Preencher, nesta ordem de prioridade:
+O instalador (passo 1) já criou o arquivo a partir do modelo. Preencher, nesta ordem de prioridade:
 
 | Variável | Onde conseguir | Prioridade |
 |---|---|---|

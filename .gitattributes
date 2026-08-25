@@ -1,0 +1,3 @@
+# Forcar LF em scripts shell, mesmo clonando/commitando de Windows
+*.sh text eol=lf
+*.bat text eol=crlf

@@ -12,21 +12,59 @@ Três frentes de automação — **Controladoria é a prioridade** deste projeto
 | **Dívida Rural** | Produção de peça (prorrogação, descaracterização de mora, revisional) — via agente Claude, calibrado pelos 3 modelos reais do escritório | agente `.claude/agents/maldonado-divida-rural.md` |
 | **Jurimetria** | "Cérebro" do escritório: prognóstico por tese/tribunal, banco de teses (vault Obsidian) | agente `.claude/agents/maldonado-jurimetria.md` |
 
-## Instalação rápida
+## Baixar o sistema
+
+Repositório: https://github.com/pabadvogados-hub/maldonado-advogados
 
 ```bash
-# 1. Ambiente
-python -m venv venv
-venv\Scripts\activate          # Windows
-pip install -r requirements.txt
-
-# 2. Configuração
-copy config\.env.example config\.env   # depois edite config\.env
-# preencha config\equipe.py com os IDs ADVBOX e OABs monitoradas
-
-# 3. Teste (so leitura, nao cria nada)
-python OPERACIONAL/main.py triagem --dias 7
+git clone https://github.com/pabadvogados-hub/maldonado-advogados.git
+cd maldonado-advogados
 ```
+
+Sem Git instalado? Baixe o ZIP direto em **Code → Download ZIP** na página do repositório acima
+e descompacte numa pasta — funciona igual, só não recebe atualizações automáticas depois.
+
+## Instalação rápida
+
+O escritório tem máquinas **Windows e Mac** — use o instalador do seu sistema (ambos fazem a
+mesma coisa: criam o ambiente, instalam as dependências e preparam o `config/.env`):
+
+**Windows** — dê duplo clique em `deploy\instalar_windows.bat` (ou rode no terminal):
+```bat
+deploy\instalar_windows.bat
+```
+
+**Mac:**
+```bash
+chmod +x deploy/instalar_mac.sh
+./deploy/instalar_mac.sh
+```
+
+### Passo a passo manual (se preferir não usar o instalador)
+
+**Windows (cmd/PowerShell):**
+```bat
+python -m venv venv
+venv\Scripts\activate.bat
+pip install -r requirements.txt
+copy config\.env.example config\.env
+```
+
+**Mac/Linux (bash/zsh):**
+```bash
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+cp config/.env.example config/.env
+```
+
+**Depois, nos dois sistemas:**
+1. Edite `config/.env` — preencha `ADVBOX_API_TOKEN` e `DJEN_OAB_LISTA`.
+2. Edite `config/equipe.py` — preencha os IDs de usuário do ADVBOX.
+3. Teste (só leitura, não cria nada):
+   ```
+   python OPERACIONAL/main.py triagem --dias 7
+   ```
 
 > **Antes de rodar em produção, leia `docs/ONBOARDING.md`** — checklist passo a passo de
 > credenciais. As automações rodam de forma segura enquanto algo não estiver configurado
