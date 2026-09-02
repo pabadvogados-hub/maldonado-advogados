@@ -15,8 +15,12 @@ MALDONADO_ADVOGADOS/
 │
 ├── OPERACIONAL/           # Squad Controladoria (PRIORIDADE) + Squad Divida Rural
 │   ├── main.py                     # Comandos: tarefas / processos / prazos / triagem / criar-tarefa
-│   ├── triagem_divida_rural.py     # Classificador: intimacao -> tese -> peca necessaria -> prioridade
-│   └── peticao_processor.py        # Geracao de minuta (IA) para as 3 acoes de divida rural
+│   └── triagem_divida_rural.py     # Classificador: intimacao -> tese -> peca necessaria -> prioridade
+│                                    # (geracao de minuta das pecas ainda e feita via agente Claude,
+│                                    #  nao ha modulo Python de producao de peca neste repositorio)
+│
+├── docs/pop_controladoria/         # POP real da Controladoria (Dra. Juliana, 20/08/2026)
+│   └── MAPA_MESTRE_CONTROLADORIA_JULIANA.png  # Mapa mestre: 3 estagios, POP-CJ-001 a 020
 │
 ├── .claude/agents/        # Agentes Claude Code / Claude.ai (mesmo conteudo do Custom Instructions)
 │   ├── maldonado-controladoria.md  # Squad Controladoria (triagem)
@@ -48,6 +52,14 @@ Objetivo: eliminar a triagem manual das 2 controllers, que hoje só distribuem i
 sem tratamento estratégico. Duas frentes, conforme o Dr. Renan definiu no fechamento:
 (1) processos em andamento (intimações/publicações) e (2) novas ações iniciais.
 
+**POP real do escritório:** a Dra. Juliana enviou o mapa mestre completo da Controladoria
+(3 estágios — Entrada / Ciclo Operacional Contínuo / Encerramento — com ~20 POPs numerados
+POP-CJ-001 a POP-CJ-020, cobrindo KPI, prazos D-5/D-3, saneamento, protocolo, PMP, encerramento
+etc.). A imagem está em `docs/pop_controladoria/MAPA_MESTRE_CONTROLADORIA_JULIANA.png` e o
+detalhamento textual completo está em `.claude/agents/maldonado-controladoria.md` — esse agente
+é a fonte da verdade operacional, não o resumo abaixo (que cobre só a fatia já automatizada,
+POP-CJ-003).
+
 Comando:
 ```
 python OPERACIONAL/main.py triagem --dias 7
@@ -58,11 +70,11 @@ Fluxo:
 1. Busca as intimações/publicações dos últimos N dias via **DJEN/Comunica (CNJ)**, filtrando pelas
    OABs do escritório (`config/equipe.py` → `OABS_MONITORADAS`).
 2. Para cada intimação, `triagem_divida_rural.py` classifica: tipo de ato, providência cabível,
-   qual das 3 teses de dívida rural está envolvida (se for o caso), peça necessária e prioridade.
+   qual das 4 teses de dívida rural está envolvida (se for o caso), peça necessária e prioridade.
 3. Cruza com o **ADVBOX** (`/lawsuits`) pelo número do processo, para trazer cliente e responsável.
 4. Imprime o relatório de triagem (ou, com `--criar-tarefa`, cria a tarefa em `/posts` — sempre com
    confirmação manual antes de gravar).
-5. Nunca protocola, nunca decide sozinho qual das 3 teses cabe quando for ambíguo — sinaliza e para.
+5. Nunca protocola, nunca decide sozinho qual das 4 teses cabe quando for ambíguo — sinaliza e para.
 
 Regras:
 - Tarefas ADVBOX usam endpoint `/posts` (não `/tasks`).
@@ -75,12 +87,13 @@ Regras:
 
 ## Squad Dívida Rural (OPERACIONAL) — Produção de peças
 
-As 3 ações centrais do escritório (ver `.claude/agents/maldonado-divida-rural.md` para o
+As 4 ações centrais do escritório (ver `.claude/agents/maldonado-divida-rural.md` para o
 detalhamento jurídico completo):
 1. **Prorrogação/alongamento compulsório de crédito rural** (item 2.6.4 MCR + Súmula 298/STJ).
 2. **Ação declaratória de descaracterização de mora** (Tema 28/STJ — distinção juros compostos x
    capitalização, Súmulas 539/541).
-3. **Ação revisional de contrato bancário rural** (estrutura em tópicos I-IV).
+3. **Descaracterização de mora c/c falha na assistência técnica** (Justiça Federal, réu CEF/BB).
+4. **Ação revisional de contrato bancário rural** (estrutura em tópicos I-IV).
 
 A minuta é produzida pelo agente Claude (`.claude/agents/maldonado-divida-rural.md`), calibrado
 pelas 3 peças-modelo reais em `DOCS_MODELOS/`. Toda peça sai **pronta para revisão** — nunca
