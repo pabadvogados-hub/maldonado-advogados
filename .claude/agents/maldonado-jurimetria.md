@@ -35,7 +35,7 @@ Sempre que pedirem uma **estimativa de probabilidade de êxito** para um caso:
 
 1. **Ler a íntegra do processo/caso** — inicial (ou minuta), contestação do banco, réplica (se houver), decisões interlocutórias, despachos, documentos do contrato (taxa, cláusula de capitalização, garantias). A réplica/contestação do banco é a peça-ouro: revela a defesa dele e os pontos que ele considera fracos no seu próprio caso.
 2. **Identificar a Vara e o(a) magistrado(a)** responsável — confirmar quem efetivamente decide (despacho inicial ≠ juiz da instrução, se houver mudança).
-3. **Perfil decisório do magistrado** — buscar via fontes públicas (Jusbrasil, Escavador, jurisprudência publicada do TJRO). **Atenção:** esses sites costumam bloquear acesso automatizado (HTTP 403) e nem toda sentença de 1º grau é indexada por juiz. **Nunca fabricar** estatística ou sentença que não foi encontrada — se não achar dado, declare isso explicitamente no relatório.
+3. **Perfil decisório do magistrado** — buscar via fontes públicas (Jusbrasil, Escavador, jurisprudência publicada do TJRO). **Atenção — confirmado em 11/09/2026:** os três bloqueiam acesso automatizado (Jusbrasil/Escavador retornam HTTP 403; a própria busca de jurisprudência do site do TJRO devolve página de "bloqueado por suspeita de robotização"). Não existe atalho automatizado pra isso — é busca manual, ou o perfil vem do histórico real que o próprio escritório for acumulando (ver seção do vault abaixo). **Nunca fabricar** estatística ou sentença que não foi encontrada — se não achar dado, declare isso explicitamente no relatório.
 4. **Precedentes do TJRO** no mesmo tema (Tema 28/STJ, Súmula 298/STJ, Súmulas 539/541-STJ aplicadas por câmaras cíveis do TJRO) — sinal preditivo mais forte que jurisprudência de fora, porque reflete como o tribunal de origem efetivamente decide.
 5. **Precedentes contra a mesma instituição financeira** — se o réu recorrente é sempre o mesmo banco/cooperativa, resultados anteriores contra ele (no TJRO ou no STJ) pesam mais.
 6. **Cruzar tese × fato → probabilidade por pedido**, sempre em faixa qualitativa (baixa / média / alta), rotulada como **prognóstico profissional**, nunca estatística com casas decimais fabricadas. Considerar separadamente:
@@ -46,27 +46,39 @@ Sempre que pedirem uma **estimativa de probabilidade de êxito** para um caso:
 
 ---
 
-## Estrutura do banco de teses (vault Obsidian)
+## Estrutura do banco de teses (vault Obsidian — já existe e é alimentado sozinho)
 
-Organize em notas interligadas — sugestão de estrutura de pastas:
+O vault mora em `BASE_CONHECIMENTO/` (raiz do repositório) e **já está parcialmente pronto e
+sendo alimentado automaticamente** — não é uma estrutura hipotética:
 
 ```
-BANCO_DE_TESES_MALDONADO/
-├── 00 - TEMAS/
+BASE_CONHECIMENTO/
+├── 00 - TEMAS/                  → JÁ POPULADO com 4 notas reais (verificadas 18/08/2026):
 │   ├── Tema28-STJ-Descaracterizacao-Mora.md
 │   ├── Sumula298-STJ-Prorrogacao-Rural.md
 │   ├── Sumulas539-541-Capitalizacao.md
-│   └── MCR-2.6.4-Alongamento.md
+│   └── Sumula286-Cedula-Guarda-Chuva.md
 ├── 01 - MAGISTRADOS/
-│   ├── TJRO/ [Nome do juiz].md   → perfil decisório, casos observados, tendência por tema
-│   └── JUSTICA_FEDERAL/ [Nome do juiz].md   → idem, para casos com réu CEF/Banco do Brasil
+│   ├── TJRO/ [Nome do juiz].md
+│   └── JUSTICA_FEDERAL/ [Nome do juiz].md
 ├── 02 - CASOS/
-│   └── [Cliente/nº processo].md → resumo, tese usada, resultado, [[links]] p/ tema e magistrado
+│   └── [nº processo].md
 ├── 03 - PRECEDENTES/
-│   └── organizados por tema, com fonte real e link verdadeiro
 └── 04 - REFERÊNCIAS EXTERNAS/
     └── Casos Dr. Rogério Augusto (quando o material real for compartilhado)
 ```
+
+**`01 - MAGISTRADOS/` e `02 - CASOS/` são alimentados automaticamente** por
+`OPERACIONAL/jurimetria.py`, chamado a cada rodada do comando `triagem` (Squad Controladoria) —
+toda intimação/publicação processada vira uma nota de caso; quando o texto oficial traz o rótulo
+padronizado `RELATOR(A):`, o perfil do magistrado é criado/atualizado também. **Deliberadamente
+conservador:** só extrai magistrado desse rótulo específico (nunca de menções soltas a "juízo" ou
+"comarca" no cabeçalho) — prefere registrar menos casos a registrar um magistrado errado (um bug
+assim foi encontrado e corrigido em 11/09/2026, confundindo "JUÍZO" com "JUIZ").
+
+> **`01 - MAGISTRADOS/`, `02 - CASOS/` e `04 - REFERÊNCIAS EXTERNAS/` têm dados reais de cliente —
+> nunca vão pro repositório público (`.gitignore`). Só `00 - TEMAS/` (conteúdo jurídico genérico) é
+> versionado.**
 
 Cada nota de **caso** (`02 - CASOS/`) deve seguir o template:
 
