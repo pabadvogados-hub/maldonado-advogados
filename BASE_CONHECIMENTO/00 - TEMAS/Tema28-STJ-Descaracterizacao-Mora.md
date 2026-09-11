@@ -30,11 +30,26 @@ do pedido é **julgamento extra petita** (art. 492, CPC) — sinalizar esse risc
 - **Súmula 286/STJ** — cédula bancária rural como "contrato guarda-chuva".
 - **Súmula 298/STJ** — base para a tese de prorrogação/alongamento (ver nota irmã).
 
-## Precedente-base
+## Precedentes-base
+
+**REsp nº 1.061.530/RS** (2ª Seção/STJ, Rel. Min. Nancy Andrighi, DJe 10/03/2009) — o leading case
+que **origina o próprio Tema 28** repetitivo:
+> "O reconhecimento da abusividade nos encargos exigidos no período da normalidade contratual
+> (juros remuneratórios e capitalização) descaracteriza a mora."
+(confirmado em 11/09/2026 via DJEN, citado em acórdão real do TJPR — não é jurisprudência de
+segunda mão, é o texto que os tribunais efetivamente aplicam ao decidir esse tema.)
+
 **REsp 973.827/RS** (2ª Seção/STJ, Rel. p/ ac. Min. Maria Isabel Gallotti, DJe 24/09/2012) —
 origem das Súmulas 539 e 541; distingue formalmente juros compostos (método matemático, lícito) de
 capitalização/anatocismo (evento jurídico-fático, exige cláusula expressa). Voto-vogal do Min. Raul
 Araújo reforça a distinção.
+
+**Atenção — Orientação 4 do Tema 28 tem limite claro:** um acórdão real (TJGO, confirmado
+11/09/2026) mostra que, quando a discussão é sobre inscrição em cadastro de inadimplentes, o STJ
+exige a presença **concomitante** de (a) plausibilidade jurídica da impugnação, (b) demonstração de
+afronta à jurisprudência pacificada e (c) prestação de caução/depósito idôneo (Súmula 380/STJ
+também se aplica aqui). Isso é especificamente pra pedido de baixa de negativação — não confundir
+com o pedido único da ação declaratória pura.
 
 ## Casos do escritório
 Ver [[02 - CASOS]] — cada processo com essa tese linka aqui. Grupo ADVBOX correspondente:
@@ -42,8 +57,9 @@ Ver [[02 - CASOS]] — cada processo com essa tese linka aqui. Grupo ADVBOX corr
 Falha na Assistência Técnica"** (5 processos, foro Justiça Federal — ver nota própria).
 
 ## Status deste tema no vault
-Conteúdo-base verificado e registrado em 18/08/2026 (pesquisa WebSearch cruzada com os 3
-modelos reais do escritório). **Falta:** precedentes específicos do TJRO aplicando o Tema 28 —
-nenhum foi localizado ainda porque a busca automatizada de jurisprudência do TJRO/Jusbrasil/
-Escavador bloqueia acesso robotizado (HTTP 403). Precedentes do TJRO precisam ser colados aqui
-manualmente conforme forem aparecendo nos casos reais (a triagem diária já sinaliza isso).
+Conteúdo-base verificado em 18/08/2026 e complementado em 11/09/2026 com precedentes reais
+extraídos via API DJEN/Comunica (CNJ) de casos de referência do mercado (dívida rural bancária
+nacional). Precedentes específicos do TJRO ainda não localizados diretamente — a busca de
+jurisprudência do TJRO/Jusbrasil/Escavador bloqueia acesso robotizado (confirmado 11/09/2026).
+Continuar colando aqui manualmente conforme aparecerem nos casos reais (a triagem diária já
+sinaliza isso, e `OPERACIONAL/jurimetria.py` já registra os casos automaticamente).

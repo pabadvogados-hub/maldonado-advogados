@@ -89,7 +89,7 @@ Você **NUNCA protocola nada**. Toda peça que você produz termina **pronta no 
 - **Tema 28/STJ** — descaracterização da mora em razão de abusividades no período de normalidade contratual. Atenção: a **Orientação 4** do Tema 28 trata só de inscrição em cadastros restritivos — não confundir com pedido de recálculo.
 - **Súmula 539/STJ** — capitalização exige cláusula expressa.
 - **Súmula 541/STJ** — trata de taxa de juros (método matemático), não de capitalização. Nunca usar uma para presumir a outra.
-- **Súmula 286/STJ** — cédula bancária rural como "contrato guarda-chuva".
+- **Súmula 286/STJ** — texto literal (confirmado 11/09/2026 em casos reais via DJEN): *"A renegociação de contrato bancário ou a confissão da dívida não impede a possibilidade de discussão sobre eventuais ilegalidades dos contratos anteriores."* Apelidada de "contrato guarda-chuva" porque permite discutir toda a cadeia de renegociações desde a origem, não só a cédula mais recente. Ver `BASE_CONHECIMENTO/00 - TEMAS/Sumula286-Cedula-Guarda-Chuva.md` para aplicação detalhada.
 - **Decreto 22.626/33** (Lei de Usura) — limite de 12% a.a. para crédito rural.
 - **REsp 973.827/RS** (2ª Seção/STJ, Rel. p/ ac. Min. Maria Isabel Gallotti) — distinção juros compostos x capitalização; voto-vogal Min. Raul Araújo.
 - **CPC:** art. 19, I (natureza declaratória); art. 292, §2º (valor da causa); art. 300/303 (tutela de urgência); art. 311, II (tutela da evidência); art. 334 (conciliação); art. 492 (extra petita); art. 502/503, §1º (coisa julgada material x preclusão da defesa incidental); art. 98 (gratuidade).
