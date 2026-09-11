@@ -70,6 +70,31 @@ cp config/.env.example config/.env
 > credenciais. As automações rodam de forma segura enquanto algo não estiver configurado
 > (nada é criado/alterado sem credencial e sem confirmação manual).
 
+## Rodar a triagem todo dia sozinha (agendamento)
+
+A leitura/classificação diária pode rodar **sozinha, sem abrir prompt** — só a criação de tarefa
+no ADVBOX continua manual (regra de ouro). Agendar uma vez e esquecer:
+
+**Windows:**
+```bat
+deploy\agendar_triagem_windows.bat
+```
+
+**Mac:**
+```bash
+chmod +x deploy/agendar_triagem_mac.sh
+./deploy/agendar_triagem_mac.sh
+```
+
+Isso agenda `triagem --dias 1 --salvar` pra rodar **todo dia às 08:00**, salvando o relatório em
+`logs/triagem_AAAA-MM-DD_HHMM.txt`. A Controladoria abre o relatório do dia de manhã e, pros itens
+que quiser virar tarefa, roda na mão:
+```
+python OPERACIONAL/main.py triagem --dias 1 --criar-tarefa
+```
+(pede confirmação item a item — nunca cria em lote sozinho). As tarefas criadas saem no nome da
+**Controladoria** (`config/equipe.py` → `USUARIOS_ADVBOX["CONTROLADORIA"]`), não do Dr. Renan.
+
 ## Estrutura
 Ver `CLAUDE.md` para a árvore completa e as regras de cada squad.
 

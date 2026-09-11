@@ -18,9 +18,10 @@ env/
 # Banco de teses local (se nao for versionado - depende da decisao do onboarding)
 # BASE_CONHECIMENTO/
 
-# Relatorios / saidas geradas
+# Relatorios / saidas geradas (dados reais de processos/clientes - nunca versionar)
 *.tmp
 tmp/
+logs/
 
 # Arquivos pessoais do SO
 Thumbs.db

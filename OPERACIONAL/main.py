@@ -15,7 +15,7 @@
     cd MALDONADO_ADVOGADOS && python OPERACIONAL/main.py criar-tarefa <lawsuit_id> <tipo> --mensagem "..."
 =============================================================================
 """
-import sys, os, io, argparse
+import sys, os, io, argparse, contextlib
 from datetime import datetime, timedelta
 from collections import defaultdict
 
@@ -79,7 +79,37 @@ def _headers():
 # COMANDO PRIORITARIO: triagem - Squad Controladoria
 # ============================================================
 
+class _Tee:
+    """Escreve em varios streams ao mesmo tempo (console + arquivo de log)."""
+    def __init__(self, *streams):
+        self.streams = streams
+
+    def write(self, data):
+        for s in self.streams:
+            s.write(data)
+
+    def flush(self):
+        for s in self.streams:
+            s.flush()
+
+
 def cmd_triagem(args):
+    if not getattr(args, 'salvar', False):
+        _rodar_triagem(args)
+        return
+
+    pasta_logs = os.path.join(os.path.dirname(__file__), '..', 'logs')
+    os.makedirs(pasta_logs, exist_ok=True)
+    nome_arquivo = f"triagem_{datetime.now().strftime('%Y-%m-%d_%H%M')}.txt"
+    caminho = os.path.join(pasta_logs, nome_arquivo)
+    with open(caminho, 'w', encoding='utf-8') as arquivo:
+        tee = _Tee(sys.stdout, arquivo)
+        with contextlib.redirect_stdout(tee):
+            _rodar_triagem(args)
+    print(f'\n  Relatorio salvo em: {caminho}')
+
+
+def _rodar_triagem(args):
     print('=' * 80)
     print('  TRIAGEM DE CONTROLADORIA - MALDONADO ADVOGADOS')
     print('=' * 80)
@@ -143,12 +173,16 @@ def cmd_triagem(args):
 def _criar_tarefas_da_triagem(itens_triagem):
     """Para itens de prioridade alta com peca/providencia identificada, oferece
     criar a tarefa no ADVBOX - sempre com confirmacao manual, nunca em lote sem revisao.
+
+    Tarefas de triagem saem DA controladoria (from + guest = CONTROLADORIA), nao do
+    responsavel pelo escritorio - e a Controladoria quem triA e depois delega pro
+    advogado certo (POP-CJ-003), entao a tarefa automatica deve aparecer no nome dela.
     """
     usuarios = _usuarios()
-    responsavel_id = usuarios.get('RESPONSAVEL')
-    if not responsavel_id:
-        print('\n  ERRO: config/equipe.py -> USUARIOS_ADVBOX["RESPONSAVEL"] nao preenchido. '
-              'Sem isso nao da pra criar tarefa (campo "from" obrigatorio).')
+    controladoria_id = usuarios.get('CONTROLADORIA') or usuarios.get('RESPONSAVEL')
+    if not controladoria_id:
+        print('\n  ERRO: config/equipe.py -> USUARIOS_ADVBOX["CONTROLADORIA"] (ou "RESPONSAVEL") '
+              'nao preenchido. Sem isso nao da pra criar tarefa (campo "from" obrigatorio).')
         return
 
     candidatos = [it for it in itens_triagem if it['prioridade'] == 'alta'
@@ -176,9 +210,9 @@ def _criar_tarefas_da_triagem(itens_triagem):
         task_id = advbox.buscar_id_por_nome('tasks', 'ACOMPANHAMENTO') or (settings.get('tasks') or [{}])[0].get('id')
         try:
             resultado = advbox.criar_publicacao(
-                lawsuit_id=lawsuit_id, task_id=task_id, guest_ids=[responsavel_id],
+                lawsuit_id=lawsuit_id, task_id=task_id, guest_ids=[controladoria_id],
                 comments=f"[Triagem automatica] {it['providencia_cabivel']} - {it.get('peca_necessaria') or ''}",
-                from_id=responsavel_id, urgent=True,
+                from_id=controladoria_id, urgent=True,
             )
             print(f'  Tarefa criada: {resultado}')
         except Exception as e:
@@ -366,7 +400,12 @@ def main():
     p_triagem = subparsers.add_parser('triagem', help='[PRIORIDADE] Triagem de intimacoes/publicacoes via DJEN')
     p_triagem.add_argument('--dias', '-d', default=7, help='Ultimos N dias (default: 7)')
     p_triagem.add_argument('--criar-tarefa', action='store_true',
-                            help='Oferece criar tarefa no ADVBOX para itens de prioridade alta (com confirmacao)')
+                            help='Oferece criar tarefa no ADVBOX para itens de prioridade alta (com confirmacao '
+                                 'interativa item a item - NAO USAR em execucao agendada/sem terminal, trava '
+                                 'esperando resposta)')
+    p_triagem.add_argument('--salvar', action='store_true',
+                            help='Salva o relatorio em logs/triagem_AAAA-MM-DD_HHMM.txt, alem de mostrar no '
+                                 'console - use nas execucoes agendadas (ver deploy/agendar_triagem_*)')
 
     p_tarefas = subparsers.add_parser('tarefas', help='Listar tarefas pendentes')
     p_tarefas.add_argument('--dias', '-d', help='Dias a frente (default: 14)')
