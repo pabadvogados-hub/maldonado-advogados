@@ -31,6 +31,7 @@ import requests
 import advbox_integration as advbox
 import comunica_djen
 from triagem_divida_rural import triagem_lote, imprimir_triagem
+import jurimetria
 
 try:
     import equipe
@@ -165,6 +166,13 @@ def _rodar_triagem(args):
 
     itens_triagem = triagem_lote(todos_resumos, lawsuits_por_processo)
     imprimir_triagem(itens_triagem)
+
+    # Squad Jurimetria: alimenta o banco de teses (so escreve arquivo local,
+    # nunca mexe em ADVBOX - nao precisa de confirmacao).
+    resultado_vault = jurimetria.atualizar_vault(todos_resumos, itens_triagem)
+    print(f"  Banco de teses: {resultado_vault['casos_registrados']} caso(s) registrado(s), "
+          f"{resultado_vault['magistrados_identificados']} magistrado(s) identificado(s) em "
+          f"BASE_CONHECIMENTO/")
 
     if args.criar_tarefa:
         _criar_tarefas_da_triagem(itens_triagem)

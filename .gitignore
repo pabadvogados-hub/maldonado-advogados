@@ -15,8 +15,14 @@ __pycache__/
 venv/
 env/
 
-# Banco de teses local (se nao for versionado - depende da decisao do onboarding)
-# BASE_CONHECIMENTO/
+# Banco de teses: SO "00 - TEMAS" (conteudo juridico generico) vai pro
+# repositorio publico. "01 - MAGISTRADOS", "02 - CASOS" e "04 - REFERENCIAS
+# EXTERNAS" acumulam DADOS REAIS DE CLIENTES (nomes, processos, textos de
+# decisao) via jurimetria.py - nunca podem ir pra um repo publico.
+BASE_CONHECIMENTO/01 - MAGISTRADOS/**/*.md
+BASE_CONHECIMENTO/02 - CASOS/*.md
+BASE_CONHECIMENTO/04 - REFERENCIAS EXTERNAS/*.md
+!BASE_CONHECIMENTO/**/.gitkeep
 
 # Relatorios / saidas geradas (dados reais de processos/clientes - nunca versionar)
 *.tmp
