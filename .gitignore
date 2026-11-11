@@ -28,6 +28,8 @@ BASE_CONHECIMENTO/04 - REFERENCIAS EXTERNAS/*.md
 *.tmp
 tmp/
 logs/
+# financeiro, laudos e relatorios gerados (dado real de cliente)
+SAIDA/
 
 # Arquivos pessoais do SO
 Thumbs.db

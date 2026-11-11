@@ -11,6 +11,31 @@ Três frentes de automação — **Controladoria é a prioridade** deste projeto
 | **Controladoria** (prioridade) | Captura intimações/publicações via DJEN, classifica providência/tese/prazo, cruza com ADVBOX, oferece criar tarefa | `python OPERACIONAL/main.py triagem --dias 7` |
 | **Dívida Rural** | Produção de peça (prorrogação, descaracterização de mora, revisional) — via agente Claude, calibrado pelos 3 modelos reais do escritório | agente `.claude/agents/maldonado-divida-rural.md` |
 | **Jurimetria** | "Cérebro" do escritório: prognóstico por tese/tribunal, banco de teses (vault Obsidian) | agente `.claude/agents/maldonado-jurimetria.md` |
+| **Financeiro** | Situação de cada cliente (em dia / em atraso / bloqueado), régua de cobrança, histórico de negociação, ADVBOX → Asaas, saneamento e painel | `python FINANCEIRO/main.py situacao` |
+| **Trava financeira** | Cliente com mais de 90 dias em atraso sai marcado na triagem e não vira tarefa de produção | automática dentro da `triagem` |
+| **Marketing (Meta Ads)** | Cria a campanha de WhatsApp para produtor rural (nasce pausada) e mede gasto, conversas e custo por lead | `python MARKETING/criar_campanha.py` |
+| **Laudos** | Recálculo da cédula de crédito rural (cobrado × recalculado) com minuta do laudo em .docx | `python LAUDOS/laudo_credito_rural.py caso.json` |
+
+## Comandos do pacote financeiro, marketing e laudos
+
+| O que | Comando |
+|---|---|
+| Quem está em dia, em atraso e bloqueado | `python FINANCEIRO/main.py situacao` |
+| Mensagens de cobrança do dia (planilha para o WhatsApp do financeiro) | `python FINANCEIRO/main.py regua --registrar` |
+| Registrar uma negociação | `python FINANCEIRO/main.py historico "NOME DO CLIENTE" -a "ligou, paga dia 20" --autor Savio` |
+| Ver o histórico de um cliente | `python FINANCEIRO/main.py historico "NOME DO CLIENTE"` |
+| Parcelas do ADVBOX sem cobrança no Asaas (emite com confirmação) | `python FINANCEIRO/main.py emitir --dias 30 --criar` |
+| Contratos que estão num sistema e no outro não | `python FINANCEIRO/main.py saneamento` |
+| Painel do financeiro no navegador | `python FINANCEIRO/main.py painel` |
+| Plano da campanha (não cria nada) | `python MARKETING/criar_campanha.py` |
+| Criar a campanha na conta (PAUSADA) | `python MARKETING/criar_campanha.py --criar` |
+| Ligar / pausar a campanha | `python MARKETING/criar_campanha.py --ativar <id>` / `--pausar <id>` |
+| Relatório do Meta (gasto, conversas, custo por lead) | `python MARKETING/relatorio_meta.py --dias 7` |
+| Laudo de recálculo de cédula rural | `python LAUDOS/laudo_credito_rural.py LAUDOS/exemplo_cedula.json` |
+
+Textos, estados e orçamento da campanha: `MARKETING/campanha_produtor_rural.json`.
+Artes: `MARKETING/criativos/`. Tudo o que é gerado com dado de cliente vai para `SAIDA/`
+(fora do GitHub).
 
 ## Baixar o sistema
 

@@ -1,0 +1,26 @@
+{
+  "_leia": "EXEMPLO FICTICIO. Copie este arquivo para cada caso (fora do repositorio, ex.: SAIDA/laudos/casos/) e troque os dados. 'fundamento' e escrito pelo advogado e vai literalmente no laudo.",
+  "devedor": "JOAO EXEMPLO DA SILVA",
+  "credor": "BANCO EXEMPLO S.A.",
+  "cedula": "CCR 0000/2021",
+  "processo": "",
+  "data_base": "2026-11-10",
+  "liberacoes": [
+    {"data": "2021-03-15", "valor": 300000.00}
+  ],
+  "pagamentos": [
+    {"data": "2022-03-15", "valor": 80000.00},
+    {"data": "2023-03-15", "valor": 80000.00}
+  ],
+  "cobrado": {
+    "taxa_aa": 14.0,
+    "capitalizacao": "mensal",
+    "fundamento": "Taxa e periodicidade aplicadas pelo credor, conforme extrato."
+  },
+  "recalculado": {
+    "taxa_aa": 12.0,
+    "capitalizacao": "anual",
+    "fundamento": "[Advogado: fundamento da taxa e da periodicidade adotadas no recalculo.]"
+  },
+  "conclusao": ""
+}

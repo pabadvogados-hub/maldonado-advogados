@@ -165,7 +165,15 @@ def _rodar_triagem(args):
             lawsuits_por_processo[proc_norm] = achados[0]
 
     itens_triagem = triagem_lote(todos_resumos, lawsuits_por_processo)
+    _aplicar_trava_financeira(itens_triagem, lawsuits_por_processo)
     imprimir_triagem(itens_triagem)
+    bloqueados = [it for it in itens_triagem if it.get('financeiro') == 'BLOQUEADO']
+    if bloqueados:
+        print(f'\n  TRAVA FINANCEIRA: {len(bloqueados)} intimacao(oes) de cliente BLOQUEADO '
+              f'(mais de {os.getenv("FIN_DIAS_BLOQUEIO") or 90} dias em atraso). Prazo fatal continua sendo')
+        print('  acompanhado, mas a equipe nao produz peca ate o financeiro liberar:')
+        for it in bloqueados:
+            print(f"    {it['processo']} | {it['cliente'][:40]} | {it['providencia_cabivel'][:50]}")
 
     # Squad Jurimetria: alimenta o banco de teses (so escreve arquivo local,
     # nunca mexe em ADVBOX - nao precisa de confirmacao).
@@ -176,6 +184,30 @@ def _rodar_triagem(args):
 
     if args.criar_tarefa:
         _criar_tarefas_da_triagem(itens_triagem)
+
+
+def _aplicar_trava_financeira(itens_triagem, lawsuits_por_processo):
+    """Marca cada item com a situacao financeira do cliente (FINANCEIRO/main.py situacao).
+    Cliente BLOQUEADO nao vira tarefa de producao: o operacional nao atua ate regularizar."""
+    try:
+        import importlib.util
+        caminho = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'FINANCEIRO', 'main.py')
+        spec = importlib.util.spec_from_file_location('financeiro_main', caminho)
+        financeiro = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(financeiro)
+        situacao = financeiro.carregar_situacao()
+    except Exception as e:
+        print(f'  Aviso: trava financeira indisponivel ({e}). Triagem segue sem ela.')
+        return
+    for it in itens_triagem:
+        proc_norm = ''.join(filter(str.isdigit, it.get('processo') or ''))
+        lawsuit = lawsuits_por_processo.get(proc_norm) or {}
+        clientes = lawsuit.get('customers') or [{}]
+        status, _ = financeiro.status_do_cliente(clientes[0].get('name') or it.get('cliente'),
+                                                 clientes[0].get('identification'), situacao)
+        it['financeiro'] = status
+        if status == 'BLOQUEADO':
+            it['providencia_cabivel'] = '[CLIENTE BLOQUEADO NO FINANCEIRO] ' + (it['providencia_cabivel'] or '')
 
 
 def _criar_tarefas_da_triagem(itens_triagem):
@@ -194,7 +226,8 @@ def _criar_tarefas_da_triagem(itens_triagem):
         return
 
     candidatos = [it for it in itens_triagem if it['prioridade'] == 'alta'
-                  and it.get('cliente') and 'NAO ENCONTRADO' not in it['cliente']]
+                  and it.get('cliente') and 'NAO ENCONTRADO' not in it['cliente']
+                  and it.get('financeiro') != 'BLOQUEADO']
 
     if not candidatos:
         print('\n  Nenhum item de prioridade alta com processo identificado no ADVBOX para criar tarefa.')

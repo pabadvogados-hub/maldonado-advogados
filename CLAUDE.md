@@ -42,9 +42,32 @@ MALDONADO_ADVOGADOS/
 └── requirements.txt
 ```
 
-> **Fora do escopo nesta fase:** Squad Comercial/Intake (ZapSign/Atende Direito) e Squad Financeiro
-> (fechamento/Asaas) não foram contratados por este cliente — o escritório já opera captação e
-> financeiro por conta própria. Ver `docs/_WHITE_LABEL_SPEC.md` §5.
+## Pacote financeiro + marketing + laudos (novembro/2026)
+
+```
+FINANCEIRO/main.py            # situacao | regua | historico | emitir | saneamento | painel
+INTEGRACOES/asaas_integration.py   # clientes, cobrancas, links de pagamento
+INTEGRACOES/meta_ads_integration.py # leitura (relatorio) + criacao de campanha (nasce PAUSADA)
+MARKETING/criar_campanha.py   # campanha de WhatsApp p/ produtor rural (config em campanha_produtor_rural.json)
+MARKETING/relatorio_meta.py   # gasto, conversas, custo por lead, ranking de anuncios
+MARKETING/criativos/          # artes dos anuncios
+LAUDOS/laudo_credito_rural.py # recalculo da cedula (cobrado x recalculado) + minuta .docx
+SAIDA/                        # tudo que e gerado com dado de cliente (NAO versionado)
+```
+
+Regras:
+- ADVBOX é a fonte da verdade do financeiro (parcelas por **vencimento**); o Asaas emite e recebe.
+  A cobrança do Asaas guarda o id da parcela do ADVBOX em `externalReference` - é o que amarra os dois.
+- Cliente com atraso acima de `FIN_DIAS_BLOQUEIO` (padrão 90 dias, regra da reunião de 20/10/2026) fica
+  **BLOQUEADO**: a triagem marca a intimação e não oferece criar tarefa de produção. Prazo fatal continua
+  aparecendo no relatório.
+- Campanha do Meta **nasce pausada**; ligar é passo separado com confirmação. Textos informativos, sem
+  promessa de resultado (Provimento 205/2021 da OAB).
+- Laudo: o script calcula; taxa e capitalização do cenário recalculado são escolha do advogado, com o
+  fundamento escrito no arquivo do caso.
+- Conta Azul: ainda não integrado (precisa do app do escritório no Portal do Desenvolvedor da Conta Azul).
+
+> **Fora do escopo:** Squad Comercial/Intake (ZapSign). Ver `docs/_WHITE_LABEL_SPEC.md` §5.
 
 ## Squad Controladoria (OPERACIONAL) — PRIORIDADE 1
 

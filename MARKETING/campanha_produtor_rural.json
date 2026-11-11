@@ -1,0 +1,35 @@
+{
+  "_leia": "Campanha de mensagem no WhatsApp para produtor rural endividado com banco. Edite os textos, estados e orcamento aqui. Textos informativos, sem promessa de resultado (Provimento 205/2021 da OAB). Imagens: coloque os arquivos em MARKETING/criativos/ e cite o nome em 'imagem'.",
+  "nome_campanha": "[AUTOMACAO] Produtor Rural - Dívida Bancária",
+  "categorias_especiais": [],
+  "conjuntos": [
+    {
+      "nome": "Rondônia - produtor rural",
+      "estados": [
+        "Rondônia"
+      ],
+      "orcamento_diario_reais": 30,
+      "idade_min": 25,
+      "idade_max": 65,
+      "interesses": [
+        "Agronegócio",
+        "Pecuária",
+        "Agricultura"
+      ]
+    }
+  ],
+  "anuncios": [
+    {
+      "nome": "Prorrogação - safra frustrada",
+      "imagem": "prorrogacao.png",
+      "titulo": "Dívida rural com o banco?",
+      "texto": "Produtor rural: quando a safra frustra, o preço cai ou a comercialização trava, o crédito rural pode ser prorrogado. É uma regra do próprio Manual de Crédito Rural, reconhecida pelo STJ (Súmula 298).\n\nEntenda como funciona e quais documentos reunir. Fale com a equipe do Maldonado Advogados pelo WhatsApp."
+    },
+    {
+      "nome": "Revisional - juros do contrato",
+      "imagem": "revisional.png",
+      "titulo": "Os juros do seu crédito rural estão certos?",
+      "texto": "Cédula rural tem regras próprias de juros e de capitalização. Quando o banco cobra fora delas, a dívida pode ser revista.\n\nO Maldonado Advogados atua na defesa do produtor rural. Mande uma mensagem e entenda o seu caso."
+    }
+  ]
+}
