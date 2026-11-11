@@ -1,0 +1,20 @@
+{
+  "model": "sonnet",
+  "env": {
+    "MAX_THINKING_TOKENS": "8000",
+    "PDF_LIMITE_PAGINAS": "5"
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Read",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if python -c \"\" >/dev/null 2>&1; then python \"$CLAUDE_PROJECT_DIR/.claude/hooks/pdf_guard.py\"; else python3 \"$CLAUDE_PROJECT_DIR/.claude/hooks/pdf_guard.py\"; fi"
+          }
+        ]
+      }
+    ]
+  }
+}

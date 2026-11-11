@@ -42,6 +42,19 @@ MALDONADO_ADVOGADOS/
 └── requirements.txt
 ```
 
+## Economia de tokens (custo por peça) - SEGUIR SEMPRE
+
+- Peça nova = comando `/peca "<pasta do cliente>" <ação>`. Uma peça por sessão; `/clear` antes da próxima.
+- **Nunca ler PDF grande inteiro.** Primeiro `python FERRAMENTAS/preparar_caso.py "<pasta>"` e ler o
+  `_CASO.md`. O hook `.claude/hooks/pdf_guard.py` bloqueia PDF acima de 5 páginas sem `pages`.
+- **Nunca escrever código python-docx para a peça.** Escrever em Markdown e rodar
+  `python FERRAMENTAS/gerar_docx.py <arquivo.md>`.
+- Corrigir com edição pontual; não reescrever nem reler a peça inteira.
+- Modelo padrão do projeto: **Sonnet** (`.claude/settings.json`). Opus só em caso excepcional, com
+  `/model opus` na sessão e voltando com `/model sonnet`.
+- Ler só o necessário: a nota de tema que o caso pede, não a pasta `BASE_CONHECIMENTO` inteira.
+- Busca de jurisprudência: no máximo 2 buscas por peça; sem precedente local, sinalizar.
+
 ## Pacote financeiro + marketing + laudos (novembro/2026)
 
 ```
